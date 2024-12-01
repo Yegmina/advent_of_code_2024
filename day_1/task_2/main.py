@@ -16,13 +16,21 @@ a.sort()
 b.sort()
 print("a:", a)
 print("b:", b)
-total_distance=0
+total_similarity_score=0
 if len(a)!=len(b):
     print("error, length should be same")
 else:
     total_numbers=len(a)
 for i in range(total_numbers):
-    distance=abs(b[i]-a[i])
-    total_distance+=distance
+    a_in_b=0
+    for j in range(total_numbers):
+        if a[i]==b[j]:
+            a_in_b+=1
+        elif b[j]>a[i]:
+            break
+    print(str(a[i])+": ")
+    print(a_in_b)
 
-print(total_distance)
+    total_similarity_score+=a_in_b*a[i]
+print("answer: ")
+print(total_similarity_score)
