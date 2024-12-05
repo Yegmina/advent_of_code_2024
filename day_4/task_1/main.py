@@ -113,6 +113,7 @@ def main():
     #print(countWordAppearancesInArray(getDiagonalsMatrix(matrix), word))
     result=countAppearanceInMatrix(matrix, word)
     print(f"result {result}")
+    print(lines)
 
 # START PROGRAM
 main()
