@@ -24,7 +24,6 @@ def putInfoToMatrix(lines):
         matrix[i] = list(line.strip())
     return matrix
 
-
 def reverseString(word):
     """Reverse giver word and return new one, for example qwerty become ytrewq """
     reversed_word=""
@@ -33,7 +32,6 @@ def reverseString(word):
         reversed_word += word[-i-1]
     #print(reversed_word)
     return reversed_word
-
 
 def horizontalAppearanceCalculator(matrix, word):
     """Count the appearances of a word in horizontal lines of the matrix."""
@@ -50,11 +48,9 @@ def horizontalAppearanceCalculator(matrix, word):
     #print(f"Total horizontal appearances of '{word}': {counter}")
     return counter
 
-
 def rotateMatrix90(matrix):
     """Rotate the matrix by 90 degrees clockwise."""
     return np.rot90(matrix, k=-1)  # k=-1 rotates clockwise
-
 
 def verticalAppearanceCalculator(matrix, word):
     """Count the appearances of a word in vertical lines of the matrix."""
@@ -62,7 +58,6 @@ def verticalAppearanceCalculator(matrix, word):
     print(f"rotated matrix by 90 degrees is {matrix}")
     counter= horizontalAppearanceCalculator(matrix, word)
     return counter
-
 
 def getDiagonalsMatrix(matrix):
     """Extract all main and anti-diagonals from the matrix."""
@@ -82,8 +77,6 @@ def getDiagonalsMatrix(matrix):
 
     return diagonals
 
-
-
 def countWordAppearancesInArray(words_array, searching_word):
     """Count occurrences of the word and its reverse in an array of strings."""
     counter = 0
@@ -96,7 +89,6 @@ def countWordAppearancesInArray(words_array, searching_word):
                 counter += 1
     return counter
 
-
 def countAppearanceInMatrix(matrix, word):
     """Count all appearances of the word in horizontal, vertical, and diagonal directions."""
     diagonals = getDiagonalsMatrix(matrix)
@@ -105,7 +97,6 @@ def countAppearanceInMatrix(matrix, word):
     vertical_count = verticalAppearanceCalculator(matrix, word)
     total_count = diagonal_count + horizontal_count + vertical_count
     return total_count
-
 
 def getRulesFromInput(lines):
     x=[]
@@ -140,7 +131,6 @@ def getRulesFromInput(lines):
     else:
         return "unexpected, input not correct"
 
-
 def printRules(x,y):
     if len(x)!=len(y):
         print("error, len not the same")
@@ -149,7 +139,6 @@ def printRules(x,y):
         for i in range(len(y)):
             print(f"{i} index, X={x[i]}, Y={y[i]}")
     return "success"
-
 
 def checkOneRowOneRule(local_x, local_y, line):
     """
@@ -182,8 +171,6 @@ def checkOneRowOneRule(local_x, local_y, line):
 
     return True
 
-
-
 def getRowsFromInput(lines):
     new_lines=[]
     for line in lines:
@@ -191,7 +178,6 @@ def getRowsFromInput(lines):
         if not ("|" in line or line==""):
             new_lines.append(line)
     return new_lines
-
 
 def convertingRows2DList(lines):
     """Converting lines with numbers to 2D arr"""
@@ -211,8 +197,6 @@ def convertingRows2DList(lines):
         arr.append(row)  # Append the row to the 2D list
     return arr
 
-
-
 def fullCheckLine(x,y,line):
     if len(x)!=len(y):
         print("error, len not the same")
@@ -223,14 +207,12 @@ def fullCheckLine(x,y,line):
                 return False
     return True
 
-
 def getMiddleNumber(line):
     line_length = len(line)
     if line_length%2 != 0:
         return line[(line_length//2)]
     else:
         return "UNEXPECTED, line length even"
-
 
 def sumMiddlePageForCorrect(x, y, lines):
     sum=0
@@ -239,6 +221,24 @@ def sumMiddlePageForCorrect(x, y, lines):
             sum=sum+int(getMiddleNumber(line))
     return sum
 
+def sortLineByRules(x, y, line):
+    """Sorts a single line according to the provided rules."""
+    for _ in range(len(line)):
+        for i in range(len(x)):
+            x_index = line.index(x[i]) if x[i] in line else -1
+            y_index = line.index(y[i]) if y[i] in line else -1
+            if x_index != -1 and y_index != -1 and x_index > y_index:
+                line[x_index], line[y_index] = line[y_index], line[x_index]
+    return line
+
+def sumMiddlePageForIncorrect(x, y, lines):
+    """Sum the middle pages of incorrectly ordered lines after sorting them."""
+    sum = 0
+    for i, line in enumerate(lines):
+        if not fullCheckLine(x, y, line):
+            sorted_line = sortLineByRules(x, y, line)
+            sum += int(getMiddleNumber(sorted_line))
+    return sum
 
 def main():
     """Main function to execute the program."""
@@ -252,9 +252,8 @@ def main():
 
     #print(fullCheckLine(x,y,nums_arr[4]))
     #print(getMiddleNumber(nums_arr[2]))
-    print(sumMiddlePageForCorrect(x, y, nums_arr))
-
+    #print("Part 1:", sumMiddlePageForCorrect(x, y, nums_arr))
+    print("Part 2:", sumMiddlePageForIncorrect(x, y, nums_arr))
 
 # START PROGRAM
 main()
-
