@@ -4,21 +4,21 @@ def read_input_as_grid(filename):
     """
     with open(filename, "r") as file:
         lines = file.readlines()
-        grid = [list(line.strip()) for line in lines]  # Converting each line to a list of characters
-    return grid
+        local_grid = [list(line.strip()) for line in lines]  # Converting each line to a list of characters
+    return local_grid
 
-def print_test(grid):
-    for row in grid:
+def print_test(local_grid):
+    for row in local_grid:
         print(row)
     print("full grid=")
-    print(pretty_grid(grid))
+    print(pretty_grid(local_grid))
 
 
 
-def pretty_grid(grid):
+def pretty_grid(local_grid):
     """Replacing symbols to human language words, just to make it look better"""
     pretty_grid = []
-    for row in grid:
+    for row in local_grid:
         pretty_row=[]
         for element in row:
             match element:
