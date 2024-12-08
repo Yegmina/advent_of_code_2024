@@ -82,9 +82,11 @@ class Guard:
         self.direction="Up"
         self.out_of_map=False
         self.find_guard()
-        self.max_x=len(grid)-1
-        self.max_y=len(grid[0])-1
+        self.max_x=len(self.grid)-1
+        self.max_y=len(self.grid[0])-1
         self.looped=False
+        self.path_counted=-1
+
 
 
     def find_guard(self):
@@ -212,23 +214,40 @@ class Guard:
                     return True
         return False
 
+    def path_counter(self):
+        self.path_counted=0
+        for row in self.grid:
+            for element in row:
+                if element=="path":
+                    self.path_counted+=1
+        return self.path_counted
 
 
 
-
-
-if __name__ == "__main__":
-    grid = read_input_as_grid("test.txt")
+def main1():
+    grid = read_input_as_grid("input.txt")
     #print_test(grid)
     grid=pretty_grid(grid)
     guard=Guard(grid)
     print_grid(short_grid(guard.grid))
     #guard.print_info()
-    for i in range(50):
-        while not (guard.out_of_map or guard.looped):
-            guard.move()
-            print_grid(short_grid(guard.grid))
+    while not (guard.out_of_map or guard.looped):
+        guard.move()
+        #print_grid(short_grid(guard.grid))
+    guard.path_counter()
 
+    print(guard.path_counted)
+
+
+
+if __name__ == "__main__":
+    """
+    grid = read_input_as_grid("test.txt")
+    grid=pretty_grid(grid)
+    guard=Guard(grid)
+    print_grid(short_grid(guard.grid))
+    """
+    main1()
 
 
     #guard.print_info()
