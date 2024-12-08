@@ -17,7 +17,7 @@ def print_test(local_grid):
 
 def pretty_grid(local_grid):
     """Replacing symbols to human language words, just to make it look better"""
-    pretty_grid = []
+    local_pretty_grid = []
     for row in local_grid:
         pretty_row=[]
         for element in row:
@@ -33,10 +33,50 @@ def pretty_grid(local_grid):
                     print(f"Unexpected symbol, {element}")
                     pretty_element="?"
             pretty_row.append(pretty_element)
-        pretty_grid.append(pretty_row)
+        local_pretty_grid.append(pretty_row)
 
-    return pretty_grid
+    return local_pretty_grid
+
+
+class Guard:
+    def __init__(self, local_grid):
+        self.grid = local_grid
+        self.current_x=-1
+        self.current_y=-1
+        self.direction="Up"
+        self.find_guard()
+
+
+    def find_guard(self):
+        for i_row, row in enumerate(self.grid):
+            for i_element, element in enumerate(row):
+                match element:
+                    case "guardUp":
+                        self.current_x=i_row
+                        self.current_y=i_element
+                        self.direction="Up"
+                    case "guardDown":
+                        self.current_x=i_row
+                        self.current_y=i_element
+                        self.direction="Down"
+                    case "guardLeft":
+                        self.current_x=i_row
+                        self.current_y=i_element
+                        self.direction="Left"
+                    case "guardRight":
+                        self.current_x=i_row
+                        self.current_y=i_element
+                        self.direction="Right"
+
+    def print_guard_info(self):
+        print("current x="+str(self.current_x))
+        print("current y="+str(self.current_y))
+        print("direction="+str(self.direction))
+
 
 if __name__ == "__main__":
-    grid = read_input_as_grid("input.txt")
-    print_test(grid)
+    grid = read_input_as_grid("test.txt")
+    #print_test(grid)
+    grid=pretty_grid(grid)
+    guard=Guard(grid)
+    guard.print_guard_info()
