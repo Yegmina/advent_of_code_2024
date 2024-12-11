@@ -82,14 +82,18 @@ def parsing_operators_line(numbers):
             new_results.extend(parsing_operators_between_two(partial_result, numbers[idx]))
         results = new_results
 
-    print(results)
+    #print(results)
     return results
 
 
-
+def can_be_true_line(line):
+    if line[0] in parsing_operators_line(line[1]):
+        return True
+    return False
 
 if __name__ == "__main__":
     #input_example("test.txt")
     test_cases=parse_input("test.txt")
     for test_case in test_cases:
-        parsing_operators_line(test_case[1])
+        #parsing_operators_line(test_case[1])
+        print(can_be_true_line(test_case))
