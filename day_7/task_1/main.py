@@ -37,5 +37,59 @@ def input_example(filename):
             print(component)
 
 
+
+def parsing_operators_between_two(num1, num2):
+    operators=['+','*']
+    results=[]
+    result=int()
+    for operator in operators:
+        match operator:
+            case '+':
+                result=num1+num2
+                results.append(result)
+            case '*':
+                result=num1*num2
+                results.append(result)
+            case _:
+                print("huh?")
+
+    return results
+
+
+def parsing_operators_line(numbers):
+    """
+    Computes all possible results by combining numbers with '+' and '*' operators
+    evaluated left-to-right as per the problem's rules.
+
+    Args:
+        numbers (list): A list of integers to combine with operators.
+
+    Returns:
+        list: A list of all possible results.
+    """
+    if len(numbers) == 1: #   object of type 'int' has no len()
+        return [numbers[0]]
+    if len(numbers) == 2:
+        return parsing_operators_between_two(numbers[0], numbers[1])
+
+    # Start with initial pair results
+    results = parsing_operators_between_two(numbers[0], numbers[1])
+
+    # Iteratively combine remaining numbers with each result
+    for idx in range(2, len(numbers)):
+        new_results = []
+        for partial_result in results:
+            new_results.extend(parsing_operators_between_two(partial_result, numbers[idx]))
+        results = new_results
+
+    print(results)
+    return results
+
+
+
+
 if __name__ == "__main__":
-    input_example("test.txt")
+    #input_example("test.txt")
+    test_cases=parse_input("test.txt")
+    for test_case in test_cases:
+        parsing_operators_line(test_case[1])
