@@ -91,9 +91,19 @@ def can_be_true_line(line):
         return True
     return False
 
+
+def sum_callibration_results(data): # names of the functions according to task)
+    sum=0
+    for line in data:
+        if can_be_true_line(line):
+            sum=sum+line[0]
+
+    return sum
+
 if __name__ == "__main__":
     #input_example("test.txt")
-    test_cases=parse_input("test.txt")
-    for test_case in test_cases:
+    test_cases=parse_input("input.txt")
+    #for test_case in test_cases:
         #parsing_operators_line(test_case[1])
-        print(can_be_true_line(test_case))
+        #print(can_be_true_line(test_case))
+    print(sum_callibration_results(test_cases))
