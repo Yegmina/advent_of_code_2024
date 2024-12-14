@@ -40,7 +40,7 @@ class Mover(Grid):
                 if num == 0:
                     local_xy = (local_x, local_y)
                     self.start_points.append(local_xy)
-                if num == 9:
+                elif num == 9:
                     local_xy = (local_x, local_y)
                     self.end_points.append(local_xy)
 
@@ -49,6 +49,15 @@ class Mover(Grid):
         print("Start points:", self.start_points)
         print("End points:", self.end_points)
 
+    def is_out_of_grid(self, x, y):
+        """Check if a position is within the grid bounds for certain x and y as parameters."""
+        local_within_x_bounds = 0 <= x < len(self.grid[0])
+        local_within_y_bounds = 0 <= y < len(self.grid)
+
+        if not local_within_x_bounds or not local_within_y_bounds:
+            return True
+
+        return False
 
 
 if __name__ == "__main__":
