@@ -61,12 +61,12 @@ class Mover(Grid):
 
     def paths_from_one(self, start_point):
         """
-        Perform mover to explore all paths starting from a given point.
-        Return the number of unique height 9 positions reachable.
+          Perform mover to explore all paths starting from a given point.
+          Return the number of unique height 9 positions reachable.
         """
         queue = [start_point]
         visited = set()
-        reachable_nines = 0
+        reachable_nines = set()  # Use a set to ensure unique reachable 9s
 
         while queue:
             current_point = queue.pop(0)
@@ -79,20 +79,31 @@ class Mover(Grid):
 
             # Check if the current point is height 9
             if self.grid[current_y][current_x] == 9:
-                reachable_nines += 1
-                continue
+                reachable_nines.add(current_point)  # Add this point to reachable 9s
+                continue  # Do not explore further neighbors of this point
 
             # Add valid neighbors to the queue using direction functions
             if self.can_left(current_point):
-                queue.append((current_x - 1, current_y))
-            if self.can_right(current_point):
-                queue.append((current_x + 1, current_y))
-            if self.can_up(current_point):
-                queue.append((current_x, current_y - 1))
-            if self.can_down(current_point):
-                queue.append((current_x, current_y + 1))
+                neighbor = (current_x - 1, current_y)
+                if neighbor not in visited:
+                    queue.append(neighbor)
 
-        return reachable_nines
+            if self.can_right(current_point):
+                neighbor = (current_x + 1, current_y)
+                if neighbor not in visited:
+                    queue.append(neighbor)
+
+            if self.can_up(current_point):
+                neighbor = (current_x, current_y - 1)
+                if neighbor not in visited:
+                    queue.append(neighbor)
+
+            if self.can_down(current_point):
+                neighbor = (current_x, current_y + 1)
+                if neighbor not in visited:
+                    queue.append(neighbor)
+
+        return len(reachable_nines)  # Return the count of unique reachable height 9s
 
     def paths_from_all(self):
         """return all sums of paths' nines reacheble"""
@@ -145,12 +156,18 @@ class Mover(Grid):
 
 
 if __name__ == "__main__":
+    # Read the grid
     grid_instance = Grid(getInputFromFile("input.txt"))
 
+    # Print the grid
     print("Grid:")
     grid_instance.pretty_print()
 
+    # Initialize the Mover instance
     mover_instance = Mover(grid_instance.grid)
     mover_instance.print_SnE_points()
 
-    print(mover_instance.paths_from_all())
+    # Calculate and print the total score (sum of all paths' reachable nines)
+    total_score = mover_instance.paths_from_all()
+    print(f"Total score (sum of reachable height 9 positions): {total_score}")
+
